@@ -1,0 +1,20 @@
+{
+  "name": "apprestapi",
+  "version": "1.0.0",
+  "description": "rest app with nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "https://github.com/Noby371/smartlab.git"
+  },
+  "repository": {
+    "type": "git",
+    "url": "smartlab"
+  },
+  "keywords": [
+    "nodejs",
+    "rest",
+    "api"
+  ],
+  "author": "kayy",
+  "license": "ISC"
+}
