@@ -1,24 +1,24 @@
-let mysql = require('mysql');
-require('dotenv').config(); // Menggunakan dotenv untuk mengakses variabel lingkungan
+'use strict';
 
-// Pooling untuk mengelola koneksi lebih efisien
-const pool = mysql.createPool({
-    connectionLimit: 10, // Maksimum koneksi yang diperbolehkan pada pool
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'kayy',
-    password: process.env.DB_PASSWORD || 'mohzainalFatah371_',
-    database: process.env.DB_NAME || 'smartlab_db'
+const mysql = require('mysql');
+require('dotenv').config(); // Memuat variabel dari file .env
+
+// Membuat koneksi ke database MySQL menggunakan variabel dari .env
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST,         
+    user: process.env.DB_USER,         
+    password: process.env.DB_PASSWORD, 
+    database: process.env.DB_DATABASE  
 });
 
-// Menggunakan pool untuk koneksi
-pool.getConnection((err, conn) => {
+// Membuat koneksi dan menangani error
+connection.connect((err) => {
     if (err) {
-        console.error('Error connecting to database: ', err.stack);
+        console.error('Error connecting to MySQL: ', err.stack);
         return;
     }
-    console.log('Connected to MySQL as id ' + conn.threadId);
-    conn.release(); // Jangan lupa untuk melepaskan koneksi setelah selesai
+    console.log('Connected to MySQL');
 });
 
-// Mengekspor pool untuk digunakan di bagian lain aplikasi
-module.exports = pool;
+// Mengekspor koneksi agar bisa digunakan di file lain
+module.exports = connection;
