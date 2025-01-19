@@ -1,11 +1,11 @@
 'use strict';
 
-exports.ok = function (values, rest) {
+exports.ok = function (values, res) {
     let data = {
         "status": 200,
         "message": "OK",
         "data": values
     }
-    rest.json(data);
-    rest.end();
+    res.json(data);
+    res.end();
 }
