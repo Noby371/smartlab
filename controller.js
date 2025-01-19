@@ -64,3 +64,53 @@ exports.addStudent = function (req, res) {
         });
     });
 };
+
+// UPDATE MAHASISWA
+exports.editStudent = function (req, res) {
+    // Ambil data dari request body
+    let {
+        NPM, Nama, Semester, Alamat, Gender, Telepon, Email, Uname, Upass
+    } = req.body;
+
+    // Validasi input (contoh sederhana)
+    if (!NPM || !Nama || !Semester) {
+        return res.status(400).json({
+            status: 400,
+            message: "NPM, Nama, dan Semester wajib diisi."
+        });
+    }
+
+    // Data mahasiswa yang akan diperbarui
+    let student = { Nama, Semester, Alamat, Gender, Telepon, Email, Uname, Upass };
+
+    // Query update ke database
+    connection.query(
+        'UPDATE tbl_Mahasiswa SET ? WHERE npm = ?',
+        [student, NPM],
+        (err, rows) => {
+            if (err) {
+                console.error('Error updating student:', err);
+                return res.status(500).json({
+                    status: 500,
+                    message: "Terjadi kesalahan saat memperbarui data mahasiswa."
+                });
+            }
+
+            // Jika tidak ada baris yang diperbarui
+            if (rows.affectedRows === 0) {
+                return res.status(404).json({
+                    status: 404,
+                    message: `Mahasiswa dengan NPM ${NPM} tidak ditemukan.`
+                });
+            }
+
+            // Respons jika berhasil
+            return res.status(200).json({
+                status: 200,
+                message: `Data mahasiswa dengan NPM ${NPM} berhasil diperbarui.`,
+                data: { NPM, ...student } // Gabungkan NPM ke dalam data yang dikembalikan
+            });
+        }
+    );
+};
+
