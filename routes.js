@@ -8,4 +8,7 @@ module.exports = function(app){
 
     app.route('/students')
         .get(myjson.getAllStudents);
+
+    app.route('/students/:npm')
+        .get(myjson.getStudentByNpm);
 }

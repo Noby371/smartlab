@@ -14,3 +14,12 @@ exports.getAllStudents = function (req, res) {
         response.ok(rows, res);
     });
 }
+
+// MENAMPILKAN DATA MAHASISWA BERDASARKAN NPM
+exports.getStudentByNpm = function (req, res) {
+    let npm = req.params.npm;
+    connection.query('SELECT * FROM tbl_Mahasiswa WHERE npm = ?', [npm], (err, rows, fields) => {
+        if (err) throw err;
+        response.ok(rows, res);
+    });
+}
