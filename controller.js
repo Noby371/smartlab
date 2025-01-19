@@ -114,3 +114,43 @@ exports.editStudent = function (req, res) {
     );
 };
 
+// HAPUS MAHASISWA
+exports.deleteStudent = function (req, res) {
+    let NPM = req.body.NPM;
+
+    // Validasi jika NPM tidak ada
+    if (!NPM) {
+        return res.status(400).json({
+            status: 400,
+            message: "NPM wajib diisi."
+        });
+    }
+
+    // Eksekusi query untuk menghapus mahasiswa
+    connection.query('DELETE FROM tbl_Mahasiswa WHERE NPM = ?', [NPM], (err, rows) => {
+        if (err) {
+            console.error(err); // Menangani error
+            return res.status(500).json({
+                status: 500,
+                message: "Terjadi kesalahan pada server.",
+                error: err.message
+            });
+        }
+
+        // Jika tidak ada baris yang terpengaruh (data tidak ditemukan)
+        if (rows.affectedRows === 0) {
+            return res.status(404).json({
+                status: 404,
+                message: `Mahasiswa dengan NPM ${NPM} tidak ditemukan.`
+            });
+        }
+
+        // Respons jika berhasil
+        return res.status(200).json({
+            status: 200,
+            message: `Data mahasiswa dengan NPM ${NPM} berhasil dihapus.`,
+            data: { NPM }
+        });
+    });
+};
+
