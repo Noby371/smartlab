@@ -11,4 +11,7 @@ module.exports = function(app){
 
     app.route('/students/:npm')
         .get(myjson.getStudentByNpm);
+
+    app.route('/add')
+        .post(myjson.addStudent);
 }
