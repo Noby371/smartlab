@@ -1,15 +1,24 @@
-let mysql = require('mysql');
+'use strict';
 
-const conn = mysql.createConnection({
-    host: 'localhost',
-    user: 'kayy',
-    password: 'mohzainalFatah371_',
-    database: 'smartlab_db'
+const mysql = require('mysql');
+require('dotenv').config(); // Memuat variabel dari file .env
+
+// Membuat koneksi ke database MySQL menggunakan variabel dari .env
+const connection = mysql.createConnection({
+    host: process.env.DB_HOST,         // Menggunakan DB_HOST dari .env
+    user: process.env.DB_USER,         // Menggunakan DB_USER dari .env
+    password: process.env.DB_PASSWORD, // Menggunakan DB_PASSWORD dari .env
+    database: process.env.DB_DATABASE  // Menggunakan DB_DATABASE dari .env
 });
 
-conn.connect((err) => {
-    if (err) throw err;
+// Membuat koneksi dan menangani error
+connection.connect((err) => {
+    if (err) {
+        console.error('Error connecting to MySQL: ', err.stack);
+        return;
+    }
     console.log('Connected to MySQL');
 });
 
-module.exports = conn;
+// Mengekspor koneksi agar bisa digunakan di file lain
+module.exports = connection;
