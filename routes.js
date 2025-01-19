@@ -2,5 +2,7 @@
 
 module.exports = function(app){
     let myjson = require('./controller');
-    app.get('/', myjson.index);
+
+    app.route('/')
+        .get(myjson.index);
 }
